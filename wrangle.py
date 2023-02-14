@@ -37,5 +37,5 @@ def train_validate(df, stratify_col = None, random_seed=1969):
         stratify_arg = train[stratify_col]
         
     #This splits the larger 'train' DataFrame into a smaller 'train' and 'validate' DataFrames:
-    train, validate = train_test_split(train, train_size=.6, stratify=stratify_arg, random_state = random_seed)
+    train, validate = train_test_split(train, train_size=.75, stratify=stratify_arg, random_state = random_seed)
     return train, validate, test
