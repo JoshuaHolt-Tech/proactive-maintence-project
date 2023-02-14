@@ -137,19 +137,20 @@ def dec_tree(X_train, y_train, X_val, y_val, metric = 1):
     #Print the score
     print(f'{method} of Decision Tree classifier on training set:   {train_score:.4f}')
     print(f'{method} of Decision Tree classifier on validation set: {val_score:.4f}')
+    print(classification_report(y_val, y_pred_val))
     
 def rand_forest(X_train, y_train, X_val, y_val, metric = 1):
     """
     This function runs the Random Forest classifier on the training and validation test sets.
     """
     #Creating the random forest object
-    rf = RandomForestClassifier(bootstrap=True,
-                                class_weight=None,
-                                criterion='gini',
-                                min_samples_leaf=3,
-                                n_estimators=100,
-                                max_depth=5,
-                                random_state=1969)
+    rf = RandomForestClassifier(max_depth=4, 
+                                class_weight = 'balanced', 
+                                criterion = 'entropy',
+                                n_jobs = -1,
+                                min_samples_leaf = 3,
+                                n_estimators = 100,
+                                random_state = 1969)
     
     #Fit the model to the train data
     rf.fit(X_train, y_train)
@@ -184,7 +185,7 @@ def rand_forest(X_train, y_train, X_val, y_val, metric = 1):
     #Print the score
     print(f'{method} of Random Forest classifier on training set:   {train_score:.4f}')
     print(f'{method} of Random Forest classifier on validation set: {val_score:.4f}')
-
+    print(classification_report(y_val, y_pred_val))
     
 def knn_mod(X_train, y_train, X_val, y_val, metric = 1):
     """
@@ -226,13 +227,18 @@ def knn_mod(X_train, y_train, X_val, y_val, metric = 1):
     #Print the score
     print(f'{method} of KNN classifier on training set:   {train_score:.4f}')
     print(f'{method} of KNN classifier on validation set: {val_score:.4f}')
+    print(classification_report(y_val, y_pred_val))
+
     
 def lr_mod(X_train, y_train, X_val, y_val, metric = 1):
     """
     This function runs the Logistic Regression classifier on the training and validation test sets.
     """
     #Creating a logistic regression model
-    logit = LogisticRegression(random_state=1969)
+    logit = LogisticRegression(random_state=1969,
+                               class_weight='balanced',
+                               solver = 'sag',
+                               penalty = 'none')
 
     #Fitting the model to the train dataset
     logit.fit(X_train, y_train)
@@ -268,3 +274,4 @@ def lr_mod(X_train, y_train, X_val, y_val, metric = 1):
     #Print the score
     print(f'{method} of Logistic Regression classifier on training set:   {train_score:.4f}')
     print(f'{method} of Logistic Regression classifier on validation set: {val_score:.4f}')
+    print(classification_report(y_val, y_pred_val))
