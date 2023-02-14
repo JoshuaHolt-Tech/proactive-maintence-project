@@ -1,30 +1,17 @@
 Predictive Maintenance Classification: A study in class imbalance
 
-Goal:
+# Goal:
 - Discover the indicators for equipment failure.
 - Use indicators to develop a machine learning model to classify equipment as likely or unlikely to fail.
 
-Acquire:
-- Data acquired from Kaggle for Machine Predictive Maintenance Classification.
-    - https://www.kaggle.com/datasets/shivamb/machine-predictive-maintenance-classification?select=predictive_maintenance.csv
-- Origionally from:
-    - https://archive.ics.uci.edu/ml/datasets/AI4I+2020+Predictive+Maintenance+Dataset
-- The query resulted in 10 columns and 10,000 rows.
-- Each row represents a record about a piece of equipment.
-- Each column represents a feature associated with that equipment.
+# Initial Thoughts:
+	⁃	My initial hypothesis is that speed and torque will be indicators of equipment failure. 
 
-Prepare:
-1. No null values.
-2. Changed column for temperature difference between the process and air.
-3. Created dummy columns for categorical fields.
-4. Dropped unused columns.
-5. Split data into Train, Validate and Test sets (approx. 60/20/20), stratifying on 'Target'.
-
-Data Dictionary:
+# Data Dictionary:
 | Feature |	Definition |
 |:--------|:-----------|
 |UID| Unique identifier ranging from 1 to 10000|
-|ProductID| A variant-specific serial number that begines with the Type.|
+|ProductID| A variant-specific serial number that begins with the Type.|
 |Type| A quality rating indicated by a letter L, M, or H for low (50% of all products), medium (30%), and high (20%) as product quality variants and a variant-specific serial number|
 |Air temperature [K]| Generated using a random walk process later normalized to a standard deviation of 2 K around 300 K|
 |Process temperature [K]| Generated using a random walk process normalized to a standard deviation of 1 K, added to the air temperature plus 10 K.|
@@ -34,3 +21,62 @@ Data Dictionary:
 |Target|  Label that indicates, whether the machine has failed.|
 |Failure Type| Includes: No Failure, Heat Dissipation Failure, Power Failure, Overstrain Failure, Tool Wear Failure, Random Failures.|
 
+# Acquire:
+- Data acquired from Kaggle for Machine Predictive Maintenance Classification.
+    - https://www.kaggle.com/datasets/shivamb/machine-predictive-maintenance-classification?select=predictive_maintenance.csv
+- Origionally from:
+    - https://archive.ics.uci.edu/ml/datasets/AI4I+2020+Predictive+Maintenance+Dataset
+- The query resulted in 10 columns and 10,000 rows.
+- Each row represents a record about a piece of equipment.
+- Each column represents a feature associated with that equipment.
+
+# Prepare:
+1. No null values.
+2. Changed column for temperature difference between the process and air.
+3. Created dummy columns for categorical fields.
+4. Dropped unused columns.
+5. Split data into Train, Validate and Test sets (approx. 60/20/20), stratifying on 'Target'.
+
+# Steps to Reproduce:
+1. Copy this repo.
+2. Acquire the csv file from Kaggle.
+3. Ensure the wrangle.py, explore.py and modeling.py are in the same folder as the final notebook.
+3. Run the final notebook.
+
+# Takeaways:
+All measurements which were shown to have a relationship with equipment failure. The strongest correlations are:
+- Torque [Nm]
+- Rotational speed [rpm]
+- Temp Delta [K]
+- Tool wear [min]
+
+# Modeling Summary:
+
+- Baseline normally would be 0.
+- Logistic Regression and Random Forest performed the best using Recall
+- Looking at the classification report, Logistic Regression is predicting failure most of the time.
+- Random Forest is doing a much better job overall.
+
+# Conclusion:
+The best performing model was the Random Forest classifier
+- Training set accuracy: 0.9458
+- Validation set accuracy: 0.9706
+- Test set accuracy:
+
+# Summary:
+Failures occurs at 3.4% in the dataset. The indicators of failure are: 
+- Torque [Nm]
+- Rotational speed [rpm]
+- Temp Delta [K]
+- Tool wear [min]
+
+# Recommendations:
+- Establish inspection methods to quickly identify false positive cases and restart equipment.
+- The Random Forest Model is the best for identifying failure cases and has the least amount of impact on operations.
+
+# Next Steps:
+- Explore upsampling to improve model performance (reduce false positive cases).
+- Explore clustering failure groups.
+- Attempt to identify failure types.
+- Establish a better baseline metric.
+- Explore the imbalanced-learn library for better solutions.

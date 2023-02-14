@@ -180,8 +180,8 @@ def dec_tree(X_train, y_train, X_val, y_val, metric = 1, print_scores = False):
         
     #Print the score
     if print_scores == True:
-        print(f'{method} of Decision Tree classifier on training set:   {train_score:.4f}')
-        print(f'{method} of Decision Tree classifier on validation set: {val_score:.4f}')
+        print(f'{method} for Decision Tree classifier on training set:   {train_score:.4f}')
+        print(f'{method} for Decision Tree classifier on validation set: {val_score:.4f}')
         print(classification_report(y_val, y_pred_val))
     
     return train_score, val_score
@@ -232,8 +232,8 @@ def rand_forest(X_train, y_train, X_val, y_val, metric = 1, print_scores = False
         
     #Print the score
     if print_scores == True:
-        print(f'{method} of Random Forest classifier on training set:   {train_score:.4f}')
-        print(f'{method} of Random Forest classifier on validation set: {val_score:.4f}')
+        print(f'{method} for Random Forest classifier on training set:   {train_score:.4f}')
+        print(f'{method} for Random Forest classifier on validation set: {val_score:.4f}')
         print(classification_report(y_val, y_pred_val))
 
     return train_score, val_score
@@ -277,8 +277,8 @@ def knn_mod(X_train, y_train, X_val, y_val, metric = 1, print_scores = False):
         
     #Print the score
     if print_scores == True:
-        print(f'{method} of KNN classifier on training set:   {train_score:.4f}')
-        print(f'{method} of KNN classifier on validation set: {val_score:.4f}')
+        print(f'{method} for KNN classifier on training set:   {train_score:.4f}')
+        print(f'{method} for KNN classifier on validation set: {val_score:.4f}')
         print(classification_report(y_val, y_pred_val))
 
     return train_score, val_score
@@ -326,8 +326,8 @@ def lr_mod(X_train, y_train, X_val, y_val, metric = 1, print_scores = False):
         
     #Print the score
     if print_scores == True:
-        print(f'{method} of Logistic Regression classifier on training set:   {train_score:.4f}')
-        print(f'{method} of Logistic Regression classifier on validation set: {val_score:.4f}')
+        print(f'{method} for Logistic Regression classifier on training set:   {train_score:.4f}')
+        print(f'{method} for Logistic Regression classifier on validation set: {val_score:.4f}')
         print(classification_report(y_val, y_pred_val))
     
     return train_score, val_score
@@ -440,3 +440,74 @@ def find_model_scores(X_train, y_train, X_val, y_val, metric = 1, print_scores =
     fig.tight_layout()
     #plt.savefig('best_model_all_features.png')
     plt.show()
+    
+    
+    
+def final_test(X_train, y_train, X_val, y_val, X_test, y_test):
+    """
+    This function takes in the target DataFrame, runs the data against the
+    machine learning model selected for the final test and outputs some visuals.
+    """
+    
+    #Eastablishes the standard to beat
+    baseline = find_baseline(X_train, y_train)
+    
+    #List for gathering metrics
+    model_scores = []
+    
+    """ *** Builds and fits Random Forest Model *** """  
+    
+    #Creating the random forest object
+    rf = RandomForestClassifier(max_depth=4, 
+                                class_weight = 'balanced', 
+                                criterion = 'entropy',
+                                n_jobs = -1,
+                                min_samples_leaf = 3,
+                                n_estimators = 100,
+                                random_state = 1969)
+
+    #Fit the model to the train data
+    rf.fit(X_train, y_train)
+    
+    #Make a prediction from the model
+    y_pred = rf.predict(X_train)
+    y_pred_val = rf.predict(X_val)
+    y_pred_test = rf.predict(X_test)
+
+    #Get the recall scores
+    train_score = recall_score(y_train, y_pred)
+    val_score = recall_score(y_val, y_pred_val)
+    test_score = recall_score(y_test, y_pred_test)    
+    
+    #Adds score to metrics list for comparison
+    final_model_scores.append({'Model':'Random Forest',
+                              'Recall on Train': round(train_score,4), 
+                              'Recall on Validate': round(val_score,4), 
+                              'Recall on Test': round(test_score,4)})
+    #Turn scores into a DataFrame
+    final_model_scores = pd.DataFrame(data = final_model_scores)
+    print(final_model_scores)
+    
+    #Create visuals to show the results
+    fig, ax = plt.subplots(facecolor="gainsboro")
+
+    plt.figure(figsize=(4,4))
+    ax.set_title('Random Forest results')
+    ax.axhspan(0, baseline, facecolor='red', alpha=0.2)
+    ax.axhspan(baseline, ymax=2, facecolor='palegreen', alpha=0.3)
+    ax.set_ylabel('RMS Error')    
+
+    #x_pos = [0.5, 1, 1.5]
+    width = 0.25
+
+    bar1 = ax.bar(0.5, height=final_model_scores['Recall on Train'],width =width, color=('#4e5e33'), label='Train', edgecolor='dimgray')
+    bar2 = ax.bar(1, height= final_model_scores['Recall on Validate'], width =width, color=('#8bc34b'), label='Validate', edgecolor='dimgray')
+    bar3 = ax.bar(1.5, height=final_model_scores['Recall on Test'], width =width, color=('tomato'), label='Test', edgecolor='dimgray')
+
+    # Need to have baseline input:
+    ax.axhline(baseline, label="Baseline", c='tomato', linestyle=':')
+    ax.set_xticks([0.5, 1.0, 1.5], ['Training', 'Validation', 'Test']) 
+    ax.set_ylim(bottom=0, top=1)
+    #Zoom into the important area
+    #plt.ylim(bottom=200000, top=400000)
+    ax.legend(loc='upper right', framealpha=.9, facecolor="whitesmoke", edgecolor='darkolivegreen')
