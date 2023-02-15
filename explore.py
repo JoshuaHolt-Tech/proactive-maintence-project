@@ -212,7 +212,7 @@ def t_test_cats(train, target_column, alpha = 0.05):
 
     # Add title and axis names
     plt.yticks(my_range, distro_df.index)
-    plt.title(f'Comparison of means for {target_column}', loc='center')
+    plt.title(f'Comparison of machines that failed to those that did not', loc='center')
     plt.xlabel('T-Statistic')
     plt.ylabel('Feature')
     
