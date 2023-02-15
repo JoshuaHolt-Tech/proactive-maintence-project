@@ -421,7 +421,7 @@ def find_model_scores(X_train, y_train, X_val, y_val, metric = 1, print_scores =
                     edgecolor='dimgray') #Codeup light green
 
     # Need to have baseline input:
-    plt.axhline(baseline, label="Baseline Recall", c='tomato', linestyle=':')
+    plt.axhline(baseline, label="Baseline Recall", c='red', linestyle=':')
 
     # Add some text for labels, title and custom x-axis tick labels, etc.
 
@@ -495,7 +495,7 @@ def final_test(X_train, y_train, X_val, y_val, X_test, y_test):
     ax.set_title('Random Forest results')
     ax.axhspan(0, baseline, facecolor='red', alpha=0.2)
     ax.axhspan(baseline, ymax=2, facecolor='palegreen', alpha=0.3)
-    ax.axhline(baseline, label="Baseline", c='tomato', linestyle=':')
+    ax.axhline(baseline, label="Baseline", c='red', linestyle=':')
 
     ax.set_ylabel('RMS Error')    
 
