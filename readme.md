@@ -47,7 +47,6 @@ Predictive Maintenance Classification: A study in class imbalance
 All measurements which were shown to have a relationship with equipment failure. The strongest correlations are:
 - Torque [Nm]
 - Rotational speed [rpm]
-- Temp Delta [K]
 - Tool wear [min]
 
 # Modeling Summary:
@@ -61,13 +60,12 @@ All measurements which were shown to have a relationship with equipment failure.
 The best performing model was the Random Forest classifier
 - Training set accuracy: 0.9458
 - Validation set accuracy: 0.9706
-- Test set accuracy:
+- Test set accuracy: 0.8971
 
 # Summary:
 Failures occurs at 3.4% in the dataset. The indicators of failure are: 
 - Torque [Nm]
 - Rotational speed [rpm]
-- Temp Delta [K]
 - Tool wear [min]
 
 # Recommendations:

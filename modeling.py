@@ -453,7 +453,7 @@ def final_test(X_train, y_train, X_val, y_val, X_test, y_test):
     baseline = find_baseline(X_train, y_train)
     
     #List for gathering metrics
-    model_scores = []
+    final_model_scores = []
     
     """ *** Builds and fits Random Forest Model *** """  
     
@@ -491,10 +491,12 @@ def final_test(X_train, y_train, X_val, y_val, X_test, y_test):
     #Create visuals to show the results
     fig, ax = plt.subplots(facecolor="gainsboro")
 
-    plt.figure(figsize=(4,4))
+    plt.figure(figsize=(6,6))
     ax.set_title('Random Forest results')
     ax.axhspan(0, baseline, facecolor='red', alpha=0.2)
     ax.axhspan(baseline, ymax=2, facecolor='palegreen', alpha=0.3)
+    ax.axhline(baseline, label="Baseline", c='tomato', linestyle=':')
+
     ax.set_ylabel('RMS Error')    
 
     #x_pos = [0.5, 1, 1.5]
@@ -505,9 +507,61 @@ def final_test(X_train, y_train, X_val, y_val, X_test, y_test):
     bar3 = ax.bar(1.5, height=final_model_scores['Recall on Test'], width =width, color=('tomato'), label='Test', edgecolor='dimgray')
 
     # Need to have baseline input:
-    ax.axhline(baseline, label="Baseline", c='tomato', linestyle=':')
     ax.set_xticks([0.5, 1.0, 1.5], ['Training', 'Validation', 'Test']) 
     ax.set_ylim(bottom=0, top=1)
     #Zoom into the important area
     #plt.ylim(bottom=200000, top=400000)
-    ax.legend(loc='upper right', framealpha=.9, facecolor="whitesmoke", edgecolor='darkolivegreen')
+    ax.legend(loc='lower right', framealpha=.9, facecolor="whitesmoke", edgecolor='darkolivegreen')
+    
+    
+def lr_mod_preds_plot(X_train, y_train, X_val):
+    """
+    This function runs the Logistic Regression classifier on the training and validation test sets.
+    """
+
+    
+def show_preds(X_train, y_train, X_val):
+    """
+    This function shows how the predictions are distributed.
+    """
+
+    rf = RandomForestClassifier(max_depth=4, 
+                                class_weight = 'balanced', 
+                                criterion = 'entropy',
+                                n_jobs = -1,
+                                min_samples_leaf = 3,
+                                n_estimators = 100,
+                                random_state = 1969)
+
+    #Fit the model to the train data
+    rf.fit(X_train, y_train)
+    
+    #Make a prediction from the model
+    y_pred_rf = rf.predict(X_train)
+    y_pred_val_rf = rf.predict(X_val)
+    
+    #Creating a logistic regression model
+    logit = LogisticRegression(random_state=1969,
+                               class_weight='balanced',
+                               solver = 'sag',
+                               penalty = 'none')
+
+    #Fitting the model to the train dataset
+    logit.fit(X_train, y_train)
+    
+    #Make a prediction from the model
+    y_pred_lr = logit.predict(X_train)
+    y_pred_val_lr = logit.predict(X_val)
+    
+    #Creates the subplots
+    f, (ax1, ax2) = plt.subplots(1, 2, sharey=True, facecolor="gainsboro")
+    
+    #Subplot for random forest
+    ax1.hist(y_pred_val_rf, color = '#8bc34b', ec = '#4e5e33')
+    ax1.set_xticks([0,1], ['No failure', 'Failure'])
+    ax1.set_title("Random Forest Predictions")
+    
+    #Subplot for logistic regression
+    ax2.hist(y_pred_val_lr, color = 'tomato', ec = '#4e5e33')
+    ax2.set_xticks([0,1], ['No failure', 'Failure'])
+    ax2.set_title('Logistic Regression Predictions')

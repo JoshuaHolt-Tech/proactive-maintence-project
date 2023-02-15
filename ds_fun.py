@@ -610,7 +610,7 @@ def correlation_test(df, target_col, alpha=0.05):
     for col in list_of_cols:
         result = stats.anderson(df[col])
         #Checks skew to pick a test
-        if (result.statistic < result.critical_values[0]) and (len(df[col]) > 100)
+        if (result.statistic < result.critical_values[0]) and (len(df[col]) > 100):
             corr, p_value = stats.pearsonr(df[target_col], df[col])
             test_type = '(P)'
         else:
