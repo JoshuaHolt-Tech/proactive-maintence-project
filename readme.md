@@ -1,4 +1,9 @@
 Predictive Maintenance Classification: A study in class imbalance
+# Abstract:
+
+This project focused on predicting equipment failure when given the physical properties. After starting, I realized it was more about working with imbalanced classes than it was about classification. I learned how a class' weight affect different algorithms and their performance. My Random Forest machine learning model was able to reduce recall or the number of false negative (failure occurred when it was predicted not to) incidents by 89%. It also had a minimal amount of false positive (predict failure when there is none) occurrences to minimize equipment downtime.
+
+Imbalanced classes occur in multiple domains from cyber security intrusion detection, finance fraud detection to medical disease screening.
 
 # Goal:
 - Discover the indicators for equipment failure.
