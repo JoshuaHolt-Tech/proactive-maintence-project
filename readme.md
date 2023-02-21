@@ -56,16 +56,16 @@ All measurements which were shown to have a relationship with equipment failure.
 
 # Modeling Summary:
 
-- Baseline normally would be 0.
+- Baseline normally would be 0. I used 54% based of sklearn DummyClassifier function.
 - Logistic Regression and Random Forest performed the best using Recall
 - Looking at the classification report, Logistic Regression is predicting failure most of the time.
 - Random Forest is doing a much better job overall.
 
 # Conclusion:
 The best performing model was the Random Forest classifier
-- Training set accuracy: 0.9458
-- Validation set accuracy: 0.9706
-- Test set accuracy: 0.8971
+- Training set recall: 0.9458
+- Validation set recall: 0.9706
+- Test set recall: 0.8971
 
 # Summary:
 Failures occurs at 3.4% in the dataset. The indicators of failure are: 
