@@ -29,7 +29,7 @@ Imbalanced classes occur in multiple domains from cyber security intrusion detec
 # Acquire:
 - Data acquired from Kaggle for Machine Predictive Maintenance Classification.
     - https://www.kaggle.com/datasets/shivamb/machine-predictive-maintenance-classification?select=predictive_maintenance.csv
-- Origionally from:
+- Originally from:
     - https://archive.ics.uci.edu/ml/datasets/AI4I+2020+Predictive+Maintenance+Dataset
 - The query resulted in 10 columns and 10,000 rows.
 - Each row represents a record about a piece of equipment.
