@@ -1,18 +1,23 @@
-Predictive Maintenance Classification: A study in class imbalance
-# Abstract:
+# 🔧 Predictive Maintenance: Unleashing the Power of Machine Learning on Imbalanced Classes 📊
 
-This project focused on predicting equipment failure when given the physical properties. After starting, I realized it was more about working with imbalanced classes than it was about classification. I learned how a class' weight affect different algorithms and their performance. My Random Forest machine learning model was able to reduce recall or the number of false negative (failure occurred when it was predicted not to) incidents by 89%. It also had a minimal amount of false positive (predict failure when there is none) occurrences to minimize equipment downtime.
+## 🎯 Overview:
 
-Imbalanced classes occur in multiple domains from cyber security intrusion detection, finance fraud detection to medical disease screening.
+In the realm of equipment maintenance, predicting failure before it happens is the Holy Grail. This project delves into the fascinating world of predictive maintenance, with a twist - it's not just about classification, it's about wrestling with imbalanced classes. 
 
-# Goal:
-- Discover the indicators for equipment failure.
-- Use indicators to develop a machine learning model to classify equipment as likely or unlikely to fail.
+Through the lens of machine learning, I embarked on a journey to understand how class weights influence algorithm performance. The result? A Random Forest model that slashed false negatives (predicted no failure when there was one) by a whopping 89%, while keeping false positives (predicted failure when there wasn't one) to a minimum. This ensures equipment downtime is kept at bay. 🚀
 
-# Initial Thoughts:
-	⁃	My initial hypothesis is that speed and torque will be indicators of equipment failure. 
+Imbalanced classes aren't unique to predictive maintenance. They're everywhere - from cyber security intrusion detection to finance fraud detection and medical disease screening. This project offers insights that can be applied across many domains. 🌐
 
-# Data Dictionary:
+## 🎯 Objectives:
+- Unearth the indicators of equipment failure. 🔍
+- Harness these indicators to build a machine learning model that can predict equipment failure. 🏗️
+
+## 🤔 Hypothesis:
+I ventured into this project with the hypothesis that speed and torque would be significant indicators of equipment failure. 
+
+<details>
+<summary>Data Dictionary 📚</summary>
+
 | Feature |	Definition |
 |:--------|:-----------|
 |UID| Unique identifier ranging from 1 to 10000|
@@ -26,60 +31,32 @@ Imbalanced classes occur in multiple domains from cyber security intrusion detec
 |Target|  Label that indicates, whether the machine has failed.|
 |Failure Type| Includes: No Failure, Heat Dissipation Failure, Power Failure, Overstrain Failure, Tool Wear Failure, Random Failures.|
 
-# Acquire:
-- Data acquired from Kaggle for Machine Predictive Maintenance Classification.
-    - https://www.kaggle.com/datasets/shivamb/machine-predictive-maintenance-classification?select=predictive_maintenance.csv
-- Originally from:
-    - https://archive.ics.uci.edu/ml/datasets/AI4I+2020+Predictive+Maintenance+Dataset
-- The query resulted in 10 columns and 10,000 rows.
-- Each row represents a record about a piece of equipment.
-- Each column represents a feature associated with that equipment.
+</details>
 
-# Prepare:
-1. No null values.
-2. Changed column for temperature difference between the process and air.
-3. Created dummy columns for categorical fields.
-4. Dropped unused columns.
-5. Split data into Train, Validate and Test sets (approx. 60/20/20), stratifying on 'Target'.
+## 📊 Data:
+The data for this project was sourced from Kaggle's Machine Predictive Maintenance Classification dataset, originally from the UCI Machine Learning Repository. The dataset comprises 10,000 rows, each representing a piece of equipment, and 10 columns, each representing a feature associated with that equipment. 
 
-# Steps to Reproduce:
-1. Copy this repo.
-2. Acquire the csv file from Kaggle.
-3. Ensure the wrangle.py, explore.py and modeling.py are in the same folder as the final notebook.
-3. Run the final notebook.
+## 🧹 Data Preparation:
+The data was prepared by handling null values, creating dummy columns for categorical fields, and splitting the data into Train, Validate, and Test sets. 
 
-# Takeaways:
-All measurements which were shown to have a relationship with equipment failure. The strongest correlations are:
-- Torque [Nm]
-- Rotational speed [rpm]
-- Tool wear [min]
+## 🔍 Key Findings:
+All measurements had some relationship with equipment failure, with Torque, Rotational speed, and Tool wear showing the strongest correlations.
 
-# Modeling Summary:
+## 🤖 Modeling:
+The baseline was set at 54% using sklearn's DummyClassifier function. Both Logistic Regression and Random Forest models performed well, with the latter emerging as the best model with a recall of 0.8971 on the test set.
 
-- Baseline normally would be 0. I used 54% based of sklearn DummyClassifier function.
-- Logistic Regression and Random Forest performed the best using Recall
-- Looking at the classification report, Logistic Regression is predicting failure most of the time.
-- Random Forest is doing a much better job overall.
+## 🎯 Conclusion:
+Failures occur at a rate of 3.4% in the dataset. The key indicators of failure are Torque, Rotational speed, and Tool wear. The Random Forest Model is recommended for identifying failure cases with the least impact on operations.
 
-# Conclusion:
-The best performing model was the Random Forest classifier
-- Training set recall: 0.9458
-- Validation set recall: 0.9706
-- Test set recall: 0.8971
-
-# Summary:
-Failures occurs at 3.4% in the dataset. The indicators of failure are: 
-- Torque [Nm]
-- Rotational speed [rpm]
-- Tool wear [min]
-
-# Recommendations:
-- Establish inspection methods to quickly identify false positive cases and restart equipment.
-- The Random Forest Model is the best for identifying failure cases and has the least amount of impact on operations.
-
-# Next Steps:
-- Explore upsampling to improve model performance (reduce false positive cases).
-- Explore clustering failure groups.
+## 🚀 Future Directions:
+- Explore upsampling to improve model performance.
+- Investigate clustering failure groups.
 - Attempt to identify failure types.
 - Establish a better baseline metric.
 - Explore the imbalanced-learn library for better solutions.
+
+## 🔄 Replicate My Success:
+Want to dive into the code? Just clone this repo, grab the csv file from Kaggle, ensure the wrangle.py, explore.py, and modeling.py are in the same folder as the final notebook, and run the final notebook. Happy coding! 💻
+
+## 📝 Final Thoughts:
+Predictive maintenance is a game-changer in many industries. By leveraging machine learning and tackling the challenge of imbalanced classes, we can make strides in predicting equipment failure, saving time, money, and resources. This project is a testament to the power of data science in transforming the way we approach maintenance and failure prediction. 💡
